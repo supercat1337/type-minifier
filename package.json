@@ -1,0 +1,39 @@
+{
+    "name": "@supercat1337/type-minifier",
+    "version": "1.0.0",
+    "description": "A semantic, JSDoc-powered property minifier using TypeScript AST.",
+    "type": "module",
+    "main": "index.js",
+    "bin": {
+        "type-minifier": "index.js"
+    },
+    "scripts": {
+        "start": "node index.js",
+        "test": "node index.js \"test/**/*.js\" --dry-run",
+        "build": "node index.js \"input/**/*.js\" --outDir ./dist --dts --output-map ./rename-map.json",
+        "build:inplace": "node index.js \"input/**/*.js\" --write --input-map ./rename-map.json --output-map ./rename-map.json"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/supercat1337/type-minifier.git"
+    },
+    "keywords": [
+        "minifier",
+        "jsdoc",
+        "ast",
+        "typescript",
+        "javascript",
+        "obfuscation",
+        "property-renaming"
+    ],
+    "author": "Albert Bazaleev",
+    "license": "MIT",
+    "homepage": "https://github.com/supercat1337/type-minifier",
+    "dependencies": {
+        "ts-morph": "^21.0.0",
+        "typescript": "^5.3.0"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}
