@@ -8,7 +8,7 @@ const args = process.argv.slice(2);
 const usage = `
 JSDoc Minifier CLI (Dry-run by default)
 
-Usage: node index.js <glob> [options]
+Usage: type-minifier <glob> [options]
 
 Options:
   --input-map <path>   Seed names from JSON
