@@ -1,13 +1,30 @@
 // @ts-check
-import { SyntaxKind, Node } from 'ts-morph';
+import { Node } from 'ts-morph';
+
+/**
+ * @typedef {Object} SafetyCheckResult
+ * @property {boolean} safe - True if the property is safe to rename.
+ * @property {string} [error] - Error message if the property is unsafe.
+ */
+
+/**
+ * Union of nodes that can be members of a class.
+ * @typedef {import('ts-morph').PropertyDeclaration | import('ts-morph').MethodDeclaration | import('ts-morph').GetAccessorDeclaration | import('ts-morph').SetAccessorDeclaration} RenameableMember
+ */
 
 export class SafetyAnalyzer {
     /**
-     * @param {any} prop - Using any here to avoid the Type Alias export issue
+     * Performs semantic safety analysis on a class member.
+     * @param {RenameableMember} prop - The member node to analyze.
+     * @returns {SafetyCheckResult}
      */
     static check(prop) {
         const name = prop.getName();
-        if (name.startsWith('#')) return { safe: true };
+
+        // Native private fields are syntactically safe (cannot be accessed via brackets)
+        if (name.startsWith('#')) {
+            return { safe: true };
+        }
 
         const refs = prop.findReferences();
         for (const refSymbol of refs) {
@@ -23,11 +40,11 @@ export class SafetyAnalyzer {
                 }
 
                 // 2. Check for property access: obj.propName
-                // We use Node.isPropertyAccessExpression to "narrow" the type safely
                 if (Node.isPropertyAccessExpression(parent)) {
                     const expression = parent.getExpression();
                     const type = expression.getType();
 
+                    // If the compiler cannot resolve the type, it's unsafe to rename
                     if (type.isAny() || type.isUnknown()) {
                         return { safe: false, error: `[AMBIGUOUS-TYPE] at ${this.getLoc(ref)}` };
                     }
@@ -37,7 +54,22 @@ export class SafetyAnalyzer {
         return { safe: true };
     }
 
+    /**
+     * Helper to get a human-readable line number from a reference entry.
+     * @param {import('ts-morph').ReferenceEntry} ref
+     * @returns {number}
+     */
+    static getLineNumber(ref) {
+        const pos = ref.getTextSpan().getStart();
+        return ref.getSourceFile().getLineAndColumnAtPos(pos).line;
+    }
+
+    /**
+     * Formats the location of a reference for error reporting.
+     * @param {import('ts-morph').ReferenceEntry} ref
+     * @returns {string}
+     */
     static getLoc(ref) {
-        return `${ref.getSourceFile().getBaseName()}:${ref.getLineNumber()}`;
+        return `${ref.getSourceFile().getBaseName()}:${this.getLineNumber(ref)}`;
     }
 }

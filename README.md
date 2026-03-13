@@ -61,23 +61,22 @@ Run the utility by providing a glob pattern for your source files:
 type-minifier "src/**/*.js" [options]
 ```
 
-> **Important: Dry-Run by Default**  
-> By default, the tool runs in **Dry-Run** mode. It will analyze your code and print a report but **will not modify any files** until you provide `--write` or `--outDir`.
-
 ---
 
 ## Options ⚡
 
-| Option                | Description                                                                         |
-| --------------------- | ----------------------------------------------------------------------------------- |
-| `--outDir <path>`     | Save minified files to a specific directory (e.g., `./dist`).                       |
-| `--write`             | Overwrite source files in place **(DANGER: No undo, use with Git)**.                |
-| `--input-map <path>`  | Load an existing JSON rename map to keep names consistent.                          |
-| `--output-map <path>` | Save the current session's rename map to a JSON file (with auto-cleanup).           |
-| `--exclude <path>`    | Path to a JSON file (array) of property names to **never** rename.                  |
-| `--dts`               | Generate `.d.ts` declaration files in the output directory.                         |
-| `--keep-underscore`   | Preserve the `_` prefix for shortened internal properties (e.g., `_myProp` → `_a`). |
-| `--help`, `-h`        | Show the help message.                                                              |
+| Option                  | Description                                                                         |
+| ----------------------- | ----------------------------------------------------------------------------------- |
+| `<globs...>`            | One or more file patterns to include.                                               |
+| `--exclude <glob>`      | File patterns to ignore (e.g., third-party libs).                                   |
+| `--outDir <path>`       | Save minified files to a specific directory (e.g., `./dist`).                       |
+| `--input-map <path>`    | Load an existing JSON rename map to keep names consistent.                          |
+| `--output-map <path>`   | Save the current session's rename map to a JSON file (with auto-cleanup).           |
+| `--ignore-names <path>` | Path to JSON array of property names to skip.                                       |
+| `--dts`                 | Generate `.d.ts` declaration files in the output directory.                         |
+| `--keep-underscore`     | Preserve the `_` prefix for shortened internal properties (e.g., `_myProp` → `_a`). |
+| `--help`, `-h`          | Show the help message.                                                              |
+| `--dict`, `-d`          | Path to a text file with custom words for renaming.                                 |
 
 ---
 

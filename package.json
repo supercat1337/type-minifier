@@ -30,6 +30,7 @@
     "license": "MIT",
     "homepage": "https://github.com/supercat1337/type-minifier",
     "dependencies": {
+        "glob": "^13.0.6",
         "ts-morph": "^21.0.0",
         "typescript": "^5.3.0"
     },
