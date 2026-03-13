@@ -72,9 +72,11 @@ export async function parseArgs(args) {
         }
     }
 
+    /*
     if (!options.outDir) {
         throw new Error("--outDir required");
     }
+    */
 
     // Validation Logic: OutDir takes priority and disables In-Place writing
     if (options.outDir) {

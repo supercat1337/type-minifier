@@ -1,3 +1,5 @@
+Here's the completed README with the new sections integrated:
+
 # Type-Minifier 🚀
 
 [![GitHub](https://img.shields.io/badge/GitHub-supercat1337%2Ftype--minifier-blue?logo=github)](https://github.com/supercat1337/type-minifier)
@@ -6,21 +8,6 @@
 
 **A semantic, JSDoc-powered property minifier for Vanilla JavaScript.**  
 Unlike traditional minifiers, Type-Minifier uses the TypeScript AST and JSDoc metadata to safely rename class properties and methods (including private `#fields`) across your entire project.
-
----
-
-## 📖 Table of Contents
-
-- [Why Type-Minifier?](#why-type-minifier)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Options](#options)
-- [Examples](#examples)
-- [How It Works](#how-it-works)
-- [Writing Class Properties for Optimal Minification](#writing-class-properties-for-optimal-minification)
-- [Requirements](#requirements)
-- [Troubleshooting](#troubleshooting)
-- [License](#license)
 
 ---
 
@@ -65,18 +52,18 @@ type-minifier "src/**/*.js" [options]
 
 ## Options ⚡
 
-| Option                  | Description                                                                         |
-| ----------------------- | ----------------------------------------------------------------------------------- |
-| `<globs...>`            | One or more file patterns to include.                                               |
-| `--exclude <glob>`      | File patterns to ignore (e.g., third-party libs).                                   |
-| `--outDir <path>`       | Save minified files to a specific directory (e.g., `./dist`).                       |
-| `--input-map <path>`    | Load an existing JSON rename map to keep names consistent.                          |
-| `--output-map <path>`   | Save the current session's rename map to a JSON file (with auto-cleanup).           |
-| `--ignore-names <path>` | Path to JSON array of property names to skip.                                       |
-| `--dts`                 | Generate `.d.ts` declaration files in the output directory.                         |
-| `--keep-underscore`     | Preserve the `_` prefix for shortened internal properties (e.g., `_myProp` → `_a`). |
-| `--help`, `-h`          | Show the help message.                                                              |
-| `--dict`, `-d`          | Path to a text file with custom words for renaming.                                 |
+| Option              | Alias | Description                                                  |
+| ------------------- | ----- | ------------------------------------------------------------ |
+| `--project`         | -p    | Path to jsconfig.json or tsconfig.json.                      |
+| `--dict`            | -d    | Path to a text file with custom words for renaming.          |
+| `--exclude`         |       | File patterns to ignore (can be used multiple times).        |
+| `--ignore-names`    |       | Path to a JSON file (array) of property names to skip.       |
+| `--outDir`          |       | Directory to save minified files (creates a selective copy). |
+| `--write`           |       | Overwrite source files in place (DANGER: No undo).           |
+| `--output-map`      |       | Save the session's rename map to a JSON file.                |
+| `--input-map`       |       | Load an existing rename map to keep names consistent.        |
+| `--dts`             |       | Generate .d.ts declaration files.                            |
+| `--keep-underscore` |       | Preserve the `_` prefix in shortened names.                  |
 
 ---
 
@@ -98,13 +85,20 @@ Update your source files directly using a previously generated map:
 type-minifier "src/**/*.js" --write --input-map ./rename-map.json
 ```
 
-### 3. Using Exclusions
+### 3. Production Build with Custom Dictionary
 
-Prevent specific properties from being renamed:
+Rename properties using words from `words.txt`, save to `dist`, and generate types:
 
 ```bash
-# exclude.json: ["init", "onMessage", "render"]
-type-minifier "src/**/*.js" --exclude ./exclude.json --write
+type-minifier "src/**/*.js" --dict ./words.txt --outDir ./dist --dts
+```
+
+### 4. Project-Wide Analysis
+
+Use your `jsconfig.json` for perfect type resolution across complex architectures:
+
+```bash
+type-minifier -p ./jsconfig.json --outDir ./build --output-map ./map.json
 ```
 
 ---
@@ -170,10 +164,30 @@ By following these patterns, you give Type-Minifier the static information it ne
 
 ---
 
-## Requirements 📋
+## Debugging Ambiguity 🔍
 
-- **Node.js** >= 18.0.0
-- Code should be written in **Vanilla JS with JSDoc** for best results.
+If a property isn't being renamed as expected, check the generated `type-minifier-debug.json` file. It identifies "weak" types (like `any` or `unknown`) where the minifier had to use the heuristic engine to bridge the gap.
+
+**Example Debug Log:**
+
+```json
+{
+    "file": "Component.js",
+    "line": 42,
+    "property": "$internals",
+    "context": "comp.$internals.sid = sid [HEURISTIC]"
+}
+```
+
+To fix these "weak links" for the strict compiler, add a JSDoc hint:
+
+```js
+this.items.forEach(
+    /** @param {Component} comp */ comp => {
+        comp.$internals.sid = 'root';
+    }
+);
+```
 
 ---
 
@@ -190,6 +204,13 @@ const obj = /** @type {MyClass} */ (someFunction());
 ```
 
 Using `@type` on variables and `@param` on function parameters gives the minifier the confidence it needs to rename safely.
+
+---
+
+## Requirements 📋
+
+- **Node.js** >= 18.0.0
+- A project using **JSDoc** for type definitions (or modern class fields) to achieve optimal minification.
 
 ---
 
