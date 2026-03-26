@@ -1,17 +1,17 @@
 Here's the completed README with the new sections integrated:
 
-# Type-Minifier 🚀
+# JS Type-Minifier 🚀
 
-[![GitHub](https://img.shields.io/badge/GitHub-supercat1337%2Ftype--minifier-blue?logo=github)](https://github.com/supercat1337/type-minifier)
+[![GitHub](https://img.shields.io/badge/GitHub-supercat1337%2Ftype--minifier-blue?logo=github)](https://github.com/supercat1337/js-type-minifier)
 [![Node Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **A semantic, JSDoc-powered property minifier for Vanilla JavaScript.**  
-Unlike traditional minifiers, Type-Minifier uses the TypeScript AST and JSDoc metadata to safely rename class properties and methods (including private `#fields`) across your entire project.
+Unlike traditional minifiers, JS Type-Minifier uses the TypeScript AST and JSDoc metadata to safely rename class properties and methods (including private `#fields`) across your entire project.
 
 ---
 
-## Why Type-Minifier? 🤔
+## Why JS Type-Minifier? 🤔
 
 Standard minifiers (like Terser or esbuild) usually **avoid renaming object properties** because they can't be sure if a property is part of a public API or accessed dynamically.  
 Type-Minifier solves this by:
@@ -28,13 +28,13 @@ Type-Minifier solves this by:
 Install directly from GitHub:
 
 ```bash
-npm install https://github.com/supercat1337/type-minifier
+npm install https://github.com/supercat1337/js-type-minifier
 ```
 
-To use the `type-minifier` command globally in your terminal:
+To use the `js-type-minifier` command globally in your terminal:
 
 ```bash
-cd node_modules/@supercat1337/type-minifier
+cd node_modules/@supercat1337/js-type-minifier
 npm link
 ```
 
@@ -74,7 +74,7 @@ type-minifier "src/**/*.js" [options]
 Minify all JS files, save them to a `dist` folder, and generate a mapping file for future builds:
 
 ```bash
-type-minifier "src/**/*.js" --outDir ./dist --output-map ./rename-map.json --dts
+js-type-minifier "src/**/*.js" --outDir ./dist --output-map ./rename-map.json --dts
 ```
 
 ### 2. In-place Minification
@@ -82,7 +82,7 @@ type-minifier "src/**/*.js" --outDir ./dist --output-map ./rename-map.json --dts
 Update your source files directly using a previously generated map:
 
 ```bash
-type-minifier "src/**/*.js" --write --input-map ./rename-map.json
+js-type-minifier "src/**/*.js" --write --input-map ./rename-map.json
 ```
 
 ### 3. Production Build with Custom Dictionary
@@ -90,7 +90,7 @@ type-minifier "src/**/*.js" --write --input-map ./rename-map.json
 Rename properties using words from `words.txt`, save to `dist`, and generate types:
 
 ```bash
-type-minifier "src/**/*.js" --dict ./words.txt --outDir ./dist --dts
+js-type-minifier "src/**/*.js" --dict ./words.txt --outDir ./dist --dts
 ```
 
 ### 4. Project-Wide Analysis
@@ -98,7 +98,7 @@ type-minifier "src/**/*.js" --dict ./words.txt --outDir ./dist --dts
 Use your `jsconfig.json` for perfect type resolution across complex architectures:
 
 ```bash
-type-minifier -p ./jsconfig.json --outDir ./build --output-map ./map.json
+js-type-minifier -p ./jsconfig.json --outDir ./build --output-map ./map.json
 ```
 
 ---
@@ -166,7 +166,7 @@ By following these patterns, you give Type-Minifier the static information it ne
 
 ## Debugging Ambiguity 🔍
 
-If a property isn't being renamed as expected, check the generated `type-minifier-debug.json` file. It identifies "weak" types (like `any` or `unknown`) where the minifier had to use the heuristic engine to bridge the gap.
+If a property isn't being renamed as expected, check the generated `js-type-minifier-debug.json` file. It identifies "weak" types (like `any` or `unknown`) where the minifier had to use the heuristic engine to bridge the gap.
 
 **Example Debug Log:**
 

@@ -116,7 +116,7 @@ export class ProjectProcessor {
 
         // Save Debug Logs once
         if (debugAnyLogs && debugAnyLogs.length > 0) {
-            const debugPath = path.join(process.cwd(), 'type-minifier-debug.json');
+            const debugPath = path.join(process.cwd(), 'js-type-minifier-debug.json');
             await IOHandler.saveJson(debugPath, debugAnyLogs);
             console.log(
                 `\n🔍 DEBUG: Found ${debugAnyLogs.length} ambiguous types. Details: ${debugPath}`

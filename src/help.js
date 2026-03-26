@@ -11,7 +11,7 @@ Type-Minifier CLI 🚀
 A semantic, JSDoc-powered property minifier for Vanilla JavaScript.
 
 Usage:
-  type-minifier <input_globs...> [options]
+  js-type-minifier <input_globs...> [options]
 
 Arguments:
   <input_globs...>     One or more patterns of files to minify (e.g., "src/**/*.js").
@@ -48,7 +48,7 @@ Notes:
   - Dictionary words are checked against JS keywords and global browser objects.
 
 Example:
-  type-minifier "src/**/*.js" --dict ./words.txt --outDir ./dist --dts
+  js-type-minifier "src/**/*.js" --dict ./words.txt --outDir ./dist --dts
   `;
 
   console.log(helpText);

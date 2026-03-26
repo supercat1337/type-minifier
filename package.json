@@ -1,11 +1,11 @@
 {
-    "name": "@supercat1337/type-minifier",
+    "name": "@supercat1337/js-type-minifier",
     "version": "1.0.0",
     "description": "A semantic, JSDoc-powered property minifier using TypeScript AST.",
     "type": "module",
     "main": "index.js",
     "bin": {
-        "type-minifier": "index.js"
+        "js-type-minifier": "index.js"
     },
     "scripts": {
         "start": "node index.js",
@@ -15,7 +15,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/supercat1337/type-minifier.git"
+        "url": "git+https://github.com/supercat1337/js-type-minifier.git"
     },
     "keywords": [
         "minifier",
@@ -28,7 +28,7 @@
     ],
     "author": "Albert Bazaleev",
     "license": "MIT",
-    "homepage": "https://github.com/supercat1337/type-minifier",
+    "homepage": "https://github.com/supercat1337/js-type-minifier",
     "dependencies": {
         "glob": "^13.0.6",
         "ts-morph": "^21.0.0",
